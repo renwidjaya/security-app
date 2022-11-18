@@ -11,14 +11,18 @@ class LoginServices {
     var headers = {
       'Content-Type': 'application/json',
     };
+
     final response = await http.post(
       Uri.parse("https://api.security.nixsolusindo.com/login"),
       body: body,
       headers: headers,
     );
+
     final result = LoginModel.fromJson(
       json.decode(response.body),
     );
+    
+    return result;
     if (response.statusCode == 200) {
       return result;
     } else {

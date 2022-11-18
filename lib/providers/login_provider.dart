@@ -17,17 +17,23 @@ class LoginProvider extends ChangeNotifier {
   String get message => _message;
 
   login({required String password}) async {
-    _state = ViewState.loading;
+    _state = ViewState.hasData;
+    final result = await loginServices.login(password);
+    _loginData = result;
     notifyListeners();
-    try {
-      _state = ViewState.hasData;
-      final result = await loginServices.login(password);
-      _loginData = result;
-      notifyListeners();
-    } catch (e) {
-      _state = ViewState.error;
-      _message = 'User tidak tersedia pada sistem';
-      notifyListeners();
-    }
+
+    // _state = ViewState.loading;
+    // notifyListeners();
+    // try {
+    //   _state = ViewState.hasData;
+    //   final result = await loginServices.login(password);
+    //   print("ini result lo $result");
+    //   _loginData = result;
+    //   notifyListeners();
+    // } catch (e) {
+    //   _state = ViewState.error;
+    //   _message = "User tidak tersedia pada sistem";
+    //   notifyListeners();
+    // }
   }
 }
