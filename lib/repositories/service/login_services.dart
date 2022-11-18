@@ -12,7 +12,7 @@ class LoginServices {
       'Content-Type': 'application/json',
     };
     final response = await http.post(
-      Uri.parse("https://security.api.hwaryun.my.id/login"),
+      Uri.parse("https://api.security.nixsolusindo.com/login"),
       body: body,
       headers: headers,
     );
