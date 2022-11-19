@@ -54,15 +54,15 @@ class DataLogin {
 
   int id;
   String name;
-  Null position;
-  Null rank;
+  dynamic position;
+  dynamic rank;
   String nik;
-  Null phone;
+  dynamic phone;
   int satkerId;
-  Null level;
-  Null createdBy;
-  Null updatedBy;
-  Null isActive;
+  dynamic level;
+  dynamic createdBy;
+  dynamic updatedBy;
+  dynamic isActive;
   dynamic deletedAt;
 
   factory DataLogin.fromJson(Map<String, dynamic> json) => DataLogin(

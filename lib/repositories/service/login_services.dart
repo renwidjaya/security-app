@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:security_app/repositories/model/login_model.dart';
 import 'package:http/http.dart' as http;
+import 'package:security_app/utils/constants_utils.dart';
 
 class LoginServices {
   Future<LoginModel> login(String password) async {
@@ -13,17 +14,15 @@ class LoginServices {
     };
 
     final response = await http.post(
-      Uri.parse("https://api.security.nixsolusindo.com/login"),
+      Uri.parse(
+        ConstantsUtils.baseUrl + ConstantsUtils.login,
+      ),
       body: body,
       headers: headers,
     );
 
-    final result = LoginModel.fromJson(
-      json.decode(response.body),
-    );
-    
-    return result;
     if (response.statusCode == 200) {
+      var result = LoginModel.fromJson(json.decode(response.body));
       return result;
     } else {
       throw 'Unauthecated';

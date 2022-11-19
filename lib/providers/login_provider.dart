@@ -7,7 +7,7 @@ class LoginProvider extends ChangeNotifier {
   final LoginServices loginServices;
   LoginProvider({required this.loginServices});
 
-  ViewState _state = ViewState.loading;
+  ViewState _state = ViewState.initial;
   ViewState get state => _state;
 
   LoginModel? _loginData;
@@ -17,23 +17,17 @@ class LoginProvider extends ChangeNotifier {
   String get message => _message;
 
   login({required String password}) async {
-    _state = ViewState.hasData;
-    final result = await loginServices.login(password);
-    _loginData = result;
+    _state = ViewState.loading;
     notifyListeners();
-
-    // _state = ViewState.loading;
-    // notifyListeners();
-    // try {
-    //   _state = ViewState.hasData;
-    //   final result = await loginServices.login(password);
-    //   print("ini result lo $result");
-    //   _loginData = result;
-    //   notifyListeners();
-    // } catch (e) {
-    //   _state = ViewState.error;
-    //   _message = "User tidak tersedia pada sistem";
-    //   notifyListeners();
-    // }
+    try {
+      _state = ViewState.hasData;
+      final result = await loginServices.login(password);
+      _loginData = result;
+      notifyListeners();
+    } catch (e) {
+      _state = ViewState.error;
+      _message = "User tidak tersedia pada sistem";
+      notifyListeners();
+    }
   }
 }

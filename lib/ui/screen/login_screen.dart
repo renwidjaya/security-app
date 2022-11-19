@@ -83,6 +83,7 @@ class LoginScreen extends StatelessWidget {
                             password: passwordController.text,
                           );
                           if (provider.state == ViewState.hasData) {
+                            print(provider.state);
                             Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(

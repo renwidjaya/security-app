@@ -1,9 +1,87 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:security_app/ui/style/app_colors.dart';
 import 'package:security_app/ui/style/text_tyle_constants.dart';
 
-class CaptureScreen extends StatelessWidget {
+class CaptureScreen extends StatefulWidget {
   const CaptureScreen({super.key});
+
+  @override
+  State<CaptureScreen> createState() => _CaptureScreenState();
+}
+
+class _CaptureScreenState extends State<CaptureScreen> {
+  String lat = "", long = "";
+  bool servicestatus = false;
+  bool haspermission = false;
+  late Position position;
+  late LocationPermission permission;
+  late StreamSubscription<Position> positionStream;
+
+  @override
+  void initState() {
+    checkGps();
+    getSakertById();
+    super.initState();
+  }
+
+  getSakertById() async {
+    // print(result);
+  }
+
+  checkGps() async {
+    servicestatus = await Geolocator.isLocationServiceEnabled();
+    if (servicestatus) {
+      permission = await Geolocator.checkPermission();
+
+      if (permission == LocationPermission.denied) {
+        permission = await Geolocator.requestPermission();
+        if (permission == LocationPermission.denied) {
+          print('Location permissions are denied');
+        } else if (permission == LocationPermission.deniedForever) {
+          print("'Location permissions are permanently denied");
+        } else {
+          haspermission = true;
+        }
+      } else {
+        haspermission = true;
+      }
+
+      if (haspermission) {
+        setState(() {
+          //refresh the UI
+        });
+        getLocation();
+      }
+    } else {
+      print("GPS Service is not enabled, turn on GPS location");
+    }
+  }
+
+  getLocation() async {
+    position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high);
+
+    setState(() {
+      lat = position.latitude.toString();
+      long = position.longitude.toString();
+    });
+
+    LocationSettings locationSettings = const LocationSettings(
+      accuracy: LocationAccuracy.high, //accuracy of the location data
+      distanceFilter: 100, //minimum distance (measured in meters) a
+    );
+
+    StreamSubscription<Position> positionStream =
+        Geolocator.getPositionStream(locationSettings: locationSettings)
+            .listen((Position position) {
+      setState(() {
+        lat = position.latitude.toString();
+        long = position.longitude.toString();
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -17,6 +95,10 @@ class CaptureScreen extends StatelessWidget {
               _alertWarning(),
               const SizedBox(
                 height: 24,
+              ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [Text("latitude $lat"), Text("longitude $long")],
               ),
               Center(
                 child: Image.asset(
