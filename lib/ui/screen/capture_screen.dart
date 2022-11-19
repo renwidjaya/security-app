@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:security_app/ui/style/app_colors.dart';
 import 'package:security_app/ui/style/text_tyle_constants.dart';
+import 'package:security_app/providers/satker_provider.dart';
 
 class CaptureScreen extends StatefulWidget {
   const CaptureScreen({super.key});
@@ -12,6 +13,7 @@ class CaptureScreen extends StatefulWidget {
 }
 
 class _CaptureScreenState extends State<CaptureScreen> {
+  late final SatkersProvider satkerService;
   String lat = "", long = "";
   bool servicestatus = false;
   bool haspermission = false;
@@ -27,6 +29,7 @@ class _CaptureScreenState extends State<CaptureScreen> {
   }
 
   getSakertById() async {
+    // final result = await satkerService.getSatker(id: 1);
     // print(result);
   }
 

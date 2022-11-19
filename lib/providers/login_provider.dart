@@ -7,7 +7,7 @@ class LoginProvider extends ChangeNotifier {
   final LoginServices loginServices;
   LoginProvider({required this.loginServices});
 
-  ViewState _state = ViewState.initial;
+  ViewState _state = ViewState.loading;
   ViewState get state => _state;
 
   LoginModel? _loginData;

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:security_app/providers/satker_provider.dart';
 import 'package:security_app/providers/articles_provider.dart';
 import 'package:security_app/providers/example.dart';
 import 'package:security_app/providers/login_provider.dart';
 import 'package:security_app/repositories/service/articles_service.dart';
 import 'package:security_app/repositories/service/login_services.dart';
+import 'package:security_app/repositories/service/satker_service.dart';
 import 'package:security_app/ui/screen/splash_screen.dart';
 import 'package:provider/provider.dart';
 
@@ -19,6 +21,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
+        ChangeNotifierProvider(
+          create: (context) => SatkersProvider(satkerService: SatkerService()),
+        ),
         ChangeNotifierProvider(
           create: (context) => Example(),
         ),
