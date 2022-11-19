@@ -77,7 +77,7 @@ class LoginScreen extends StatelessWidget {
                     width: double.infinity,
                     height: 50,
                     child: ElevatedButton(
-                      onPressed: () async {
+                      /*onPressed: () async {
                         if (passwordController.text != '') {
                           await provider.login(
                             password: passwordController.text,
@@ -103,7 +103,15 @@ class LoginScreen extends StatelessWidget {
                             ),
                           );
                         }
-                      },
+                      },*/
+
+                      onPressed: () => Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => const BottomNaviationScreen(),
+                        ),
+                      ),
+
                       child: provider.state == ViewState.loading
                           ? Text(
                               "Login",

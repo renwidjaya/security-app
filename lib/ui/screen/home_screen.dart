@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:security_app/providers/activities_provider.dart';
 import 'package:security_app/providers/articles_provider.dart';
 import 'package:security_app/repositories/model/articles_model.dart';
 import 'package:security_app/ui/screen/news_detail_screen.dart';
@@ -32,7 +33,98 @@ class HomeScreen extends StatelessWidget {
               "Kegiatan",
               style: TextStyleConstants.kHeading3,
             ),
-            ListView.builder(
+
+            Consumer<ActivitiesProvider>(
+                builder: (context, provider, child) {
+                  return ListView.builder(
+                    itemCount: 3,
+                    shrinkWrap: true,
+                    primary: false,
+                    itemBuilder: (context, index) {
+                      return InkWell(
+                        onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => NewsDetailScreen(
+                              article: Article(
+                                id: 1,
+                                title: "3",
+                                description: "test",
+                                image:
+                                "https://asset.kompas.com/crops/va1BnSmU8PmCoMNkwnnVWPuBUEs=/0x517:893x1113/750x500/data/photo/2020/05/15/5ebeafd04c75f.jpeg",
+                                createdAt: DateTime(200),
+                                updatedAt: DateTime(200),
+                                user: User(
+                                  id: 1,
+                                  name: "name",
+                                  username: "username",
+                                  email: "email",
+                                  nik: "nik",
+                                  satker: "satker",
+                                  role: "role",
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        child: Card(
+                          elevation: 0,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              // Image.network(
+                              //     "${ConstantsUtils.baseUrl}${provider.articles!.data[index].image}"),
+                              Image.asset("assets/s1.jpeg"),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Flexible(
+                                    child: Text(
+                                      "InI Judul",
+                                      style: TextStyleConstants.kHeading4,
+                                    ),
+                                  ),
+                                  Wrap(
+                                    children: [
+                                      Wrap(
+                                        children: const [
+                                          Icon(Icons.comment),
+                                          Text("3"),
+                                        ],
+                                      ),
+                                      const SizedBox(
+                                        width: 8.0,
+                                      ),
+                                      Wrap(
+                                        children: const [
+                                          Icon(
+                                            Icons.favorite,
+                                          ),
+                                          Text("3"),
+                                        ],
+                                      )
+                                    ],
+                                  )
+                                ],
+                              ),
+
+                              Text(
+                                "Ini daftar kegiatan adalah..",
+                                style: TextStyleConstants.kBody2,
+                              ),
+                              const SizedBox(
+                                height: 20.0,
+                              )
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  );
+                }
+            ),
+            
+            /*ListView.builder(
               itemCount: 3,
               shrinkWrap: true,
               primary: false,
@@ -116,7 +208,8 @@ class HomeScreen extends StatelessWidget {
                   ),
                 );
               },
-            ),
+            ),*/
+
           ],
         ),
       ),

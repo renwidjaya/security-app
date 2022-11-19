@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:security_app/providers/activities_provider.dart';
 import 'package:security_app/providers/articles_provider.dart';
 import 'package:security_app/providers/example.dart';
 import 'package:security_app/providers/login_provider.dart';
+import 'package:security_app/repositories/service/activities_service.dart';
 import 'package:security_app/repositories/service/articles_service.dart';
 import 'package:security_app/repositories/service/login_services.dart';
 import 'package:security_app/ui/screen/splash_screen.dart';
@@ -21,6 +23,11 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(
           create: (context) => Example(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => ActivitiesProvider(
+            activitiesService: ActivitiesService(),
+          ),
         ),
         ChangeNotifierProvider(
           create: (context) => ArticlesProvider(
