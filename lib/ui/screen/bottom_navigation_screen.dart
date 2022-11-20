@@ -5,6 +5,7 @@ import 'package:security_app/ui/screen/rekapitulasi_screen.dart';
 import 'package:security_app/ui/style/app_colors.dart';
 import 'package:security_app/ui/style/text_tyle_constants.dart';
 import 'package:security_app/ui/widget/custom_drawer.dart';
+import 'package:security_app/providers/login_provider.dart';
 
 class BottomNaviationScreen extends StatefulWidget {
   const BottomNaviationScreen({super.key});
@@ -15,6 +16,16 @@ class BottomNaviationScreen extends StatefulWidget {
 
 class _BottomNaviationScreenState extends State<BottomNaviationScreen> {
   int currentIndex = 0;
+  String username = "";
+
+  late LoginProvider loginProvider;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,7 +40,7 @@ class _BottomNaviationScreenState extends State<BottomNaviationScreen> {
         actions: [
           Center(
             child: Text(
-              "Security \nSmart",
+              "Welcome \nSmart",
               style: TextStyleConstants.kHeading6.copyWith(
                 color: AppColors.white,
               ),
