@@ -4,8 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:security_app/repositories/model/satker_model.dart';
 import 'package:security_app/utils/constants_utils.dart';
 
-class SatkerService {
-  Future<Satkers> getSatker(int id) async {
+Future<Satker> getSatker(int id) async {
     try {
       var headers = {
         'Content-Type': 'application/json',
@@ -18,8 +17,8 @@ class SatkerService {
         headers: headers,
       );
       if (response.statusCode == 200) {
-        final result = Satkers.fromJson(
-          json.decode(response.body),
+      final result = Satker.fromJson(
+        json.decode(response.body)['data'],
         );
         return result;
       } else {
@@ -32,5 +31,4 @@ class SatkerService {
         e.toString(),
       );
     }
-  }
 }

@@ -1,9 +1,10 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:security_app/ui/style/app_colors.dart';
 import 'package:security_app/ui/style/text_tyle_constants.dart';
-import 'package:security_app/providers/satker_provider.dart';
+import 'package:security_app/repositories/service/satker_service.dart';
 
 class CaptureScreen extends StatefulWidget {
   const CaptureScreen({super.key});
@@ -13,8 +14,10 @@ class CaptureScreen extends StatefulWidget {
 }
 
 class _CaptureScreenState extends State<CaptureScreen> {
-  late final SatkersProvider satkerService;
-  String lat = "", long = "";
+  double lat = 0, long = 0;
+  double latSatker = -6.220356491711469, longSatker = 106.77335832668201;
+  double totalDirection = 0.0;
+  String address = "";
   bool servicestatus = false;
   bool haspermission = false;
   late Position position;
@@ -24,13 +27,19 @@ class _CaptureScreenState extends State<CaptureScreen> {
   @override
   void initState() {
     checkGps();
-    getSakertById();
+    satkerLocation();
     super.initState();
   }
 
-  getSakertById() async {
-    // final result = await satkerService.getSatker(id: 1);
-    // print(result);
+  satkerLocation() async {
+    // final List<String> item = getListData(Keys.user);
+    // print(item);
+
+    final result = await getSatker(3);
+    // setState(() {
+    //   latSatker = result.latitude;
+    //   longSatker = result.longitude;
+    // });
   }
 
   checkGps() async {
@@ -62,13 +71,14 @@ class _CaptureScreenState extends State<CaptureScreen> {
     }
   }
 
-  getLocation() async {
+  Future getLocation() async {
     position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high);
 
+    getDistance(position);
     setState(() {
-      lat = position.latitude.toString();
-      long = position.longitude.toString();
+      lat = position.latitude;
+      long = position.longitude;
     });
 
     LocationSettings locationSettings = const LocationSettings(
@@ -80,9 +90,41 @@ class _CaptureScreenState extends State<CaptureScreen> {
         Geolocator.getPositionStream(locationSettings: locationSettings)
             .listen((Position position) {
       setState(() {
-        lat = position.latitude.toString();
-        long = position.longitude.toString();
+        lat = position.latitude;
+        long = position.longitude;
       });
+
+      double distanceInMeters = Geolocator.distanceBetween(
+          latSatker, longSatker, position.latitude, position.longitude);
+      double distanceInKiloMeters = distanceInMeters / 1000;
+      double roundDistanceInKM =
+          double.parse((distanceInKiloMeters).toStringAsFixed(2));
+
+      print(distanceInKiloMeters);
+    });
+
+    // var address = await Geolocator.local.findAd
+  }
+
+  getDistance(pos) async {
+    List<Placemark> placemarks =
+        await placemarkFromCoordinates(pos.latitude, pos.longitude);
+    print(placemarks);
+    double distanceInMeters =
+        Geolocator.distanceBetween(latSatker, longSatker, lat, long);
+    double distanceInKiloMeters = distanceInMeters / 1000;
+    double roundDistanceInKM =
+        double.parse((distanceInKiloMeters).toStringAsFixed(2));
+    // print(distanceInKiloMeters);
+    Placemark placemark = placemarks[0];
+    String street = placemark.street.toString();
+    String locality = placemark.locality.toString();
+    String sublocality = placemark.subLocality.toString();
+    String city = placemark.subAdministrativeArea.toString();
+    String postalCode = placemark.postalCode.toString();
+
+    setState(() {
+      address = "$street $locality $sublocality $city $postalCode";
     });
   }
 
@@ -101,7 +143,13 @@ class _CaptureScreenState extends State<CaptureScreen> {
               ),
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: [Text("latitude $lat"), Text("longitude $long")],
+                children: [
+                  Text("latitude $lat"),
+                  Text("longitude $long"),
+                  Text("lokasi di tentukan latitude $latSatker"),
+                  Text("lokasi di tentukan longitude $longSatker"),
+                  Text(address)
+                ],
               ),
               Center(
                 child: Image.asset(

@@ -1,32 +1,3 @@
-import 'dart:convert';
-
-Satker satkerFromJson(String str) => Satker.fromJson(json.decode(str));
-
-String satkerToJson(Satker data) => json.encode(data.toJson());
-
-class Satkers {
-  Satkers({
-    required this.code,
-    required this.message,
-    required this.data,
-  });
-
-  int code;
-  String message;
-  List<Satker> data;
-
-  factory Satkers.fromJson(Map<String, dynamic> json) => Satkers(
-        code: json["code"],
-        message: json["message"],
-        data: List<Satker>.from(json["data"].map((x) => Satker.fromJson(x))),
-      );
-
-  Map<String, dynamic> toJson() => {
-        "code": code,
-        "message": message,
-        "data": List<dynamic>.from(data.map((x) => x.toJson())),
-      };
-}
 
 class Satker {
   Satker({

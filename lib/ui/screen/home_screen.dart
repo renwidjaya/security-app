@@ -1,18 +1,18 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:security_app/providers/articles_provider.dart';
 import 'package:security_app/repositories/model/articles_model.dart';
 import 'package:security_app/ui/screen/news_detail_screen.dart';
 import 'package:security_app/ui/style/app_colors.dart';
 import 'package:security_app/ui/style/text_tyle_constants.dart';
-import 'package:security_app/ui/widget/custom_drawer.dart';
-import 'package:security_app/utils/constants_utils.dart';
-import 'package:security_app/utils/state.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
