@@ -30,6 +30,7 @@ class MyApp extends StatelessWidget {
         )
       ],
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
         title: 'SECURITY SMART',
         theme: ThemeData(
           primarySwatch: Colors.blue,

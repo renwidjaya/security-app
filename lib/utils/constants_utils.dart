@@ -3,6 +3,7 @@ class ConstantsUtils {
   static const String login = "login";
   static const String articles = "article";
   static const String satker = "satker";
+  static const String activityStore = "activity/store";
 }
 
 class Keys {

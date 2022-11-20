@@ -56,9 +56,9 @@ class DataLogin {
   String name;
   dynamic position;
   dynamic rank;
-  String nik;
+  dynamic nik;
   dynamic phone;
-  int satkerId;
+  dynamic satkerId;
   dynamic level;
   dynamic createdBy;
   dynamic updatedBy;
