@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:security_app/ui/screen/capture_kegiatan_screen.dart';
 import 'package:security_app/ui/screen/my_activity_screen.dart';
 import 'package:security_app/ui/style/text_tyle_constants.dart';
 
@@ -38,7 +39,9 @@ class CustomDrawer extends StatelessWidget {
               "Cature Kegiatan",
               style: TextStyleConstants.kBody2,
             ),
-            onTap: () {},
+            onTap: () {
+              Navigator.of(context).push(MaterialPageRoute(builder: (_) => const CaptureKegiatanScreen()));
+            },
           ),
           ListTile(
             leading: const Icon(
