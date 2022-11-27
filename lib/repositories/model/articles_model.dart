@@ -76,38 +76,38 @@ class User {
   User({
     required this.id,
     required this.name,
-    required this.username,
-    required this.email,
+    // required this.username,
+    // required this.email,
     required this.nik,
     required this.satker,
-    required this.role,
+    // required this.role,
   });
 
   int id;
   String name;
-  String username;
-  String email;
+  // String username;
+  // String email;
   String nik;
   String satker;
-  String role;
+  // String role;
 
   factory User.fromJson(Map<String, dynamic> json) => User(
         id: json["id"],
         name: json["name"],
-        username: json["username"],
-        email: json["email"],
+        // username: json["username"],
+        // email: json["email"],
         nik: json["nik"],
-        satker: json["satker"],
-        role: json["role"],
+        satker: json["satker_id"].toString(),
+        // role: json["role"],
       );
 
   Map<String, dynamic> toJson() => {
         "id": id,
         "name": name,
-        "username": username,
-        "email": email,
+        // "username": username,
+        // "email": email,
         "nik": nik,
         "satker": satker,
-        "role": role,
+        // "role": role,
       };
 }

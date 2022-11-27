@@ -1,11 +1,25 @@
 import 'package:flutter/material.dart';
-import 'package:security_app/repositories/model/articles_model.dart';
-import 'package:security_app/ui/screen/news_detail_screen.dart';
-import 'package:security_app/ui/style/app_colors.dart';
-import 'package:security_app/ui/style/text_tyle_constants.dart';
+import 'package:security_app/utils/constants_utils.dart';
+import '../../repositories/model/articles_model.dart';
+import '../../repositories/service/api_services.dart';
+import '../style/app_colors.dart';
 
-class CaptureKegiatanScreen extends StatelessWidget {
+class CaptureKegiatanScreen extends StatefulWidget {
   const CaptureKegiatanScreen({super.key});
+
+  @override
+  State<CaptureKegiatanScreen> createState() => _CaptureKegiatanScreenState();
+}
+
+class _CaptureKegiatanScreenState extends State<CaptureKegiatanScreen> {
+  Service serviceAPI = Service();  
+   late Future<List<Article>> listArticle;
+
+  @override
+  void initState() {
+    super.initState();
+    listArticle = serviceAPI.getAllData();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -14,400 +28,54 @@ class CaptureKegiatanScreen extends StatelessWidget {
         title: const Text('Capture Kegiatan'),
         backgroundColor: AppColors.softBlue,
       ),
-      body: ListView(
-        children: [
-          InkWell(
-            onTap: () => Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (_) => NewsDetailScreen(
-                  article: Article(
-                    id: 1,
-                    title: "Admin",
-                    description: "Cek Location",
-                    image:
-                        "https://asset.kompas.com/crops/va1BnSmU8PmCoMNkwnnVWPuBUEs=/0x517:893x1113/750x500/data/photo/2020/05/15/5ebeafd04c75f.jpeg",
-                    createdAt: DateTime(200),
-                    updatedAt: DateTime(200),
-                    user: User(
-                      id: 1,
-                      name: "renwidjaya",
-                      username: "renwidjaya",
-                      email: "renwidjaya@gmail.com",
-                      nik: "2133231290",
-                      satker: "satker",
-                      role: "role",
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            child: Card(
-              elevation: 0,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // Image.network(
-                  //     "${ConstantsUtils.baseUrl}${provider.articles!.data[index].image}"),
-                  Image.asset("assets/s1.jpeg"),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      body: FutureBuilder<List<Article>>(
+        future: listArticle,
+        builder: (context, snapshot) {
+          if(snapshot.hasData){
+            List<Article> isiArticle = snapshot.data!;
+            return ListView.builder(
+              itemCount: isiArticle.length,
+              itemBuilder: (context, index) {
+                return Container(
+                  margin: const EdgeInsets.all(10),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Flexible(
-                        child: Text(
-                          "Admin",
-                          style: TextStyleConstants.kHeading4,
+                      Container(
+                        height: 250,
+                        width: MediaQuery.of(context).size.width,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(5),
+                          image: DecorationImage(image: 
+                          NetworkImage(ConstantsUtils.baseUrl+isiArticle[index].image),
+                          fit: BoxFit.cover
+                          ),
                         ),
                       ),
-                      Wrap(
-                        children: [
-                          Wrap(
-                            children: const [
-                              Icon(Icons.comment),
-                              Text("3"),
-                            ],
-                          ),
-                          const SizedBox(
-                            width: 8.0,
-                          ),
-                          Wrap(
-                            children: const [
-                              Icon(
-                                Icons.favorite,
-                              ),
-                              Text("3"),
-                            ],
-                          )
-                        ],
-                      )
-                    ],
-                  ),
-
-                  Text(
-                    "Cek Location : " + "Tangerang",
-                    style: TextStyleConstants.kBody2,
-                  ),
-                  const SizedBox(
-                    height: 20.0,
-                  )
-                ],
-              ),
-            ),
-          ),
-          InkWell(
-            onTap: () => Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (_) => NewsDetailScreen(
-                  article: Article(
-                    id: 1,
-                    title: "Admin",
-                    description: "Cek Location",
-                    image:
-                        "https://asset.kompas.com/crops/va1BnSmU8PmCoMNkwnnVWPuBUEs=/0x517:893x1113/750x500/data/photo/2020/05/15/5ebeafd04c75f.jpeg",
-                    createdAt: DateTime(200),
-                    updatedAt: DateTime(200),
-                    user: User(
-                      id: 1,
-                      name: "renwidjaya",
-                      username: "renwidjaya",
-                      email: "renwidjaya@gmail.com",
-                      nik: "2133231290",
-                      satker: "satker",
-                      role: "role",
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            child: Card(
-              elevation: 0,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // Image.network(
-                  //     "${ConstantsUtils.baseUrl}${provider.articles!.data[index].image}"),
-                  Image.asset("assets/s2.jpeg"),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Flexible(
-                        child: Text(
-                          "Admin",
-                          style: TextStyleConstants.kHeading4,
-                        ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 10, left: 10),
+                        child: Text(isiArticle[index].title, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20),),
                       ),
-                      Wrap(
-                        children: [
-                          Wrap(
-                            children: const [
-                              Icon(Icons.comment),
-                              Text("4"),
-                            ],
-                          ),
-                          const SizedBox(
-                            width: 8.0,
-                          ),
-                          Wrap(
-                            children: const [
-                              Icon(
-                                Icons.favorite,
-                              ),
-                              Text("3"),
-                            ],
-                          )
-                        ],
-                      )
-                    ],
-                  ),
-
-                  Text(
-                    "Cek Location : " + "Tangerang",
-                    style: TextStyleConstants.kBody2,
-                  ),
-                  const SizedBox(
-                    height: 20.0,
-                  )
-                ],
-              ),
-            ),
-          ),
-          InkWell(
-            onTap: () => Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (_) => NewsDetailScreen(
-                  article: Article(
-                    id: 1,
-                    title: "Admin",
-                    description: "Cek Location",
-                    image:
-                        "https://asset.kompas.com/crops/va1BnSmU8PmCoMNkwnnVWPuBUEs=/0x517:893x1113/750x500/data/photo/2020/05/15/5ebeafd04c75f.jpeg",
-                    createdAt: DateTime(200),
-                    updatedAt: DateTime(200),
-                    user: User(
-                      id: 1,
-                      name: "renwidjaya",
-                      username: "renwidjaya",
-                      email: "renwidjaya@gmail.com",
-                      nik: "2133231290",
-                      satker: "satker",
-                      role: "role",
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            child: Card(
-              elevation: 0,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // Image.network(
-                  //     "${ConstantsUtils.baseUrl}${provider.articles!.data[index].image}"),
-                  Image.asset("assets/s3.jpeg"),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Flexible(
-                        child: Text(
-                          "Admin",
-                          style: TextStyleConstants.kHeading4,
-                        ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 10, left: 10),
+                        child: Text(isiArticle[index].description),
                       ),
-                      Wrap(
-                        children: [
-                          Wrap(
-                            children: const [
-                              Icon(Icons.comment),
-                              Text("4"),
-                            ],
-                          ),
-                          const SizedBox(
-                            width: 8.0,
-                          ),
-                          Wrap(
-                            children: const [
-                              Icon(
-                                Icons.favorite,
-                              ),
-                              Text("3"),
-                            ],
-                          )
-                        ],
-                      )
-                    ],
-                  ),
-
-                  Text(
-                    "Cek Location : " + "Tangerang",
-                    style: TextStyleConstants.kBody2,
-                  ),
-                  const SizedBox(
-                    height: 20.0,
-                  )
-                ],
-              ),
-            ),
-          ),
-          InkWell(
-            onTap: () => Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (_) => NewsDetailScreen(
-                  article: Article(
-                    id: 1,
-                    title: "Admin",
-                    description: "Cek Location",
-                    image:
-                        "https://asset.kompas.com/crops/va1BnSmU8PmCoMNkwnnVWPuBUEs=/0x517:893x1113/750x500/data/photo/2020/05/15/5ebeafd04c75f.jpeg",
-                    createdAt: DateTime(200),
-                    updatedAt: DateTime(200),
-                    user: User(
-                      id: 1,
-                      name: "renwidjaya",
-                      username: "renwidjaya",
-                      email: "renwidjaya@gmail.com",
-                      nik: "2133231290",
-                      satker: "satker",
-                      role: "role",
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            child: Card(
-              elevation: 0,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // Image.network(
-                  //     "${ConstantsUtils.baseUrl}${provider.articles!.data[index].image}"),
-                  Image.asset("assets/s1.jpeg"),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Flexible(
-                        child: Text(
-                          "Admin",
-                          style: TextStyleConstants.kHeading4,
-                        ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 10, left: 10, bottom: 10),
+                        child: Text("create by : ${isiArticle[index].user.name}"),
                       ),
-                      Wrap(
-                        children: [
-                          Wrap(
-                            children: const [
-                              Icon(Icons.comment),
-                              Text("4"),
-                            ],
-                          ),
-                          const SizedBox(
-                            width: 8.0,
-                          ),
-                          Wrap(
-                            children: const [
-                              Icon(
-                                Icons.favorite,
-                              ),
-                              Text("3"),
-                            ],
-                          )
-                        ],
-                      )
+                      Divider(color: Colors.grey[400]),
                     ],
                   ),
-
-                  Text(
-                    "Cek Location : " + "Tangerang",
-                    style: TextStyleConstants.kBody2,
-                  ),
-                  const SizedBox(
-                    height: 20.0,
-                  )
-                ],
-              ),
-            ),
-          ),
-          InkWell(
-            onTap: () => Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (_) => NewsDetailScreen(
-                  article: Article(
-                    id: 1,
-                    title: "Admin",
-                    description: "Cek Location",
-                    image:
-                        "https://asset.kompas.com/crops/va1BnSmU8PmCoMNkwnnVWPuBUEs=/0x517:893x1113/750x500/data/photo/2020/05/15/5ebeafd04c75f.jpeg",
-                    createdAt: DateTime(200),
-                    updatedAt: DateTime(200),
-                    user: User(
-                      id: 1,
-                      name: "renwidjaya",
-                      username: "renwidjaya",
-                      email: "renwidjaya@gmail.com",
-                      nik: "2133231290",
-                      satker: "satker",
-                      role: "role",
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            child: Card(
-              elevation: 0,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // Image.network(
-                  //     "${ConstantsUtils.baseUrl}${provider.articles!.data[index].image}"),
-                  Image.asset("assets/s2.jpeg"),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Flexible(
-                        child: Text(
-                          "Admin",
-                          style: TextStyleConstants.kHeading4,
-                        ),
-                      ),
-                      Wrap(
-                        children: [
-                          Wrap(
-                            children: const [
-                              Icon(Icons.comment),
-                              Text("4"),
-                            ],
-                          ),
-                          const SizedBox(
-                            width: 8.0,
-                          ),
-                          Wrap(
-                            children: const [
-                              Icon(
-                                Icons.favorite,
-                              ),
-                              Text("3"),
-                            ],
-                          )
-                        ],
-                      )
-                    ],
-                  ),
-
-                  Text(
-                    "Cek Location : " + "Tangerang",
-                    style: TextStyleConstants.kBody2,
-                  ),
-                  const SizedBox(
-                    height: 20.0,
-                  )
-                ],
-              ),
-            ),
-          )
-        ],
-      ),
+                );
+              },
+            );
+          }else if(snapshot.hasError){
+            return Text("${snapshot.hasError}");
+          }
+          return const Center(child: CircularProgressIndicator(),);
+        },
+      )
     );
   }
 }

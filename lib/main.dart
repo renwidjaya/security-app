@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:security_app/providers/articles_provider.dart';
 import 'package:security_app/providers/login_provider.dart';
 import 'package:security_app/repositories/service/articles_service.dart';
 import 'package:security_app/repositories/service/login_services.dart';
 import 'package:security_app/ui/screen/splash_screen.dart';
 import 'package:provider/provider.dart';
+import 'package:security_app/ui/style/app_colors.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+    statusBarColor: AppColors.softBlue,
+  ));
   runApp(const MyApp());
 }
 
